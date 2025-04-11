@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2025 at 01:50 PM
+-- Generation Time: Apr 11, 2025 at 06:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,11 +31,19 @@ CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `middle_name` varchar(50) DEFAULT NULL,
-  `surname` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `suffix` varchar(12) NOT NULL,
   `email` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `first_name`, `middle_name`, `last_name`, `suffix`, `email`, `phone`, `created_at`) VALUES
+(1, 'Test', '', 'Test', '', 'test@gmail.com', '09815133675', '2025-04-11 15:08:47');
 
 -- --------------------------------------------------------
 
@@ -83,13 +91,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `order_id`, `user_id`, `total_price`, `status`, `created_at`) VALUES
-(15, '67a7977f1e6f8', 3, 100, 'Shipped', '2025-02-08 17:42:23'),
-(16, '67a797de3cead', 3, 420, 'Processing', '2025-02-08 17:43:58'),
-(17, '67a834b8e8aef', 3, 460, 'Completed', '2025-02-09 04:53:12'),
-(18, '67a8b982adafe', 6, 120, 'Pending', '2025-02-09 14:19:46'),
-(19, '67a9dc0006c0c', 7, 120, 'Pending', '2025-02-10 10:59:12'),
-(20, '67a9e60972465', 7, 360, 'Completed', '2025-02-10 11:42:01'),
-(21, '67aa0ba9d6a4b', 7, 2570, 'Pending', '2025-02-10 14:22:33');
+(30, '67f9371cd6f04', 9, 320, 'Completed', '2025-04-11 15:37:00');
 
 -- --------------------------------------------------------
 
@@ -110,18 +112,9 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`) VALUES
-(21, '67a7977f1e6f8', 33, 1, 100.00),
-(22, '67a797de3cead', 34, 1, 120.00),
-(23, '67a797de3cead', 45, 2, 100.00),
-(24, '67a797de3cead', 33, 1, 100.00),
-(25, '67a834b8e8aef', 45, 1, 100.00),
-(26, '67a834b8e8aef', 34, 3, 120.00),
-(27, '67a8b982adafe', 34, 1, 120.00),
-(28, '67a9dc0006c0c', 34, 1, 120.00),
-(29, '67a9e60972465', 34, 3, 120.00),
-(30, '67aa0ba9d6a4b', 48, 1, 120.00),
-(31, '67aa0ba9d6a4b', 47, 1, 450.00),
-(32, '67aa0ba9d6a4b', 46, 1, 2000.00);
+(44, '67f9371cd6f04', 33, 1, 100.00),
+(45, '67f9371cd6f04', 34, 1, 120.00),
+(46, '67f9371cd6f04', 45, 1, 100.00);
 
 -- --------------------------------------------------------
 
@@ -143,9 +136,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `stock`, `expiration_date`, `image_path`) VALUES
-(33, 'Pinangat Original', 100.00, 5, '2025-02-09', '../uploads/pinangat-ng-bicol-main.webp'),
-(34, 'Pinangat Spicy', 120.00, 5, '2025-02-22', '../uploads/674b74444c30d.jpg'),
-(45, 'Pinangat Small', 100.00, 5, '2025-02-15', '../uploads/images.jpg'),
+(33, 'Pinangat Original', 100.00, 6, '2025-05-09', '../uploads/pinangat-ng-bicol-main.webp'),
+(34, 'Pinangat Spicy', 120.00, 2, '2025-05-22', '../uploads/674b74444c30d.jpg'),
+(45, 'Pinangat Small', 100.00, 3, '2025-04-25', '../uploads/images.jpg'),
 (46, 'Pili Nut Candy Originals 1kg', 2000.00, 9, '2025-02-15', '../uploads/img_67aa0a5ed1325.jpg'),
 (47, 'Pili Nut Candy Originals 200g', 450.00, 9, '2025-02-15', '../uploads/img_67aa0a93bd944.jpg'),
 (48, 'Pili Tart Original', 120.00, 9, '2025-02-15', '../uploads/img_67aa0acfdb08e.jpg');
@@ -176,7 +169,7 @@ CREATE TABLE `store_owners` (
 --
 
 INSERT INTO `store_owners` (`id`, `user_id`, `store_name`, `store_address`, `store_phone`, `store_email`, `owner_name`, `owner_email`, `owner_phone`, `username`, `password`, `role`) VALUES
-(4, 7, 'Sample Store', 'Legazpi City', '09934259546', 'store12@email.com', 'Angelo Bufete', 'angelo@email.com', '09934259546', 'Angelo', '123456', 'store_owner');
+(4, 7, 'Sample Store', 'Legazpi City', '09934259546', 'store12@email.com', 'Angelo Bufete', 'angelo@email.com', '09815133675', 'Angelo', '123456', 'store_owner');
 
 -- --------------------------------------------------------
 
@@ -199,8 +192,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `phone`, `password`, `role`, `last_activity`) VALUES
-(1, 'admin', 'admin@email.com', '09154856442', 'admin', 'admin', '2025-03-04 12:49:01'),
-(7, 'Angelo', 'angelo@email.com', '09934259546', '123456', 'user', '2025-02-11 12:18:56');
+(1, 'admin', 'admin@email.com', '09154856442', 'admin', 'admin', '2025-04-11 16:01:33'),
+(7, 'Angelo', 'angelo@email.com', '09815133675', '123456', 'user', '2025-04-11 15:12:42'),
+(9, 'test', 'test@gmail.com', '09815133675', 'password', 'customer', '2025-04-11 15:37:19');
 
 --
 -- Indexes for dumped tables
@@ -266,7 +260,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -278,13 +272,13 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -302,7 +296,7 @@ ALTER TABLE `store_owners`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
