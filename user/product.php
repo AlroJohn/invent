@@ -1,4 +1,16 @@
-<?php include 'header.php'; ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
+    header("Location: loginuser.php");
+    exit();
+}
+
+if ($_SESSION['role'] != 'customer') {
+    header("Location: /invent/admin/index.php");
+    exit();
+}
+include 'header.php'; ?>
 <div class="lg:pl-64 min-h-screen flex flex-col bg-gray-100">
 
 

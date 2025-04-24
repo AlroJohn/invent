@@ -1,6 +1,6 @@
 <?php
-session_start();
 include('../conn.php'); // Include your database connection file
+
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
     $stmt = $conn->prepare("UPDATE user SET last_activity = NOW() WHERE id = ?");
@@ -40,6 +40,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $customer = $result->fetch_assoc();
+    $customer_no = $customer['customer_no'];
     $first_name = $customer['first_name'];
     $middle_name = $customer['middle_name'];
     $last_name = $customer['last_name'];
@@ -49,13 +50,19 @@ if ($result->num_rows > 0) {
 
     // Format full name with middle name and suffix handling
     $full_name = $first_name;
+
+    // add middle initial (first letter + “.”) if a middle name was supplied
     if (!empty($middle_name)) {
-        $full_name .= " " . $middle_name;
+        $initial = strtoupper(substr($middle_name, 0, 1)) . '.';
+        $full_name .= ' ' . $initial;
     }
-    $full_name .= " " . $last_name;
+
+    $full_name .= ' ' . $last_name;
+
     if (!empty($suffix)) {
-        $full_name .= " " . $suffix;
+        $full_name .= ' ' . $suffix;
     }
+
 } else {
     echo "Customer data not found.";
     exit();
@@ -235,6 +242,8 @@ if ($result->num_rows > 0) {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <h4 class="font-medium text-gray-600 mb-2">Personal Details</h4>
+                        <p><span class="text-gray-500">Registraion Number:</span>
+                            <?php echo htmlspecialchars($customer_no); ?></p>
                         <p><span class="text-gray-500">Name:</span> <?php echo htmlspecialchars($full_name); ?></p>
                         <p><span class="text-gray-500">Email:</span> <?php echo htmlspecialchars($customer_email); ?>
                         </p>

@@ -8,6 +8,7 @@ header('Content-Type: application/json');
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect and sanitize the inputs
+    $customer_no = trim($_POST['customer_no']); // Optional
     $first_name = trim($_POST['first_name']);
     $middle_name = trim($_POST['middle_name']); // Optional
     $last_name = trim($_POST['last_name']);
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $response = [];
 
     // Validation checks
-    if (empty($first_name) || empty($last_name) || empty($email) || empty($phone) || empty($username) || empty($password)) {
+    if (empty($customer_no) || empty($first_name) || empty($last_name) || empty($email) || empty($phone) || empty($username) || empty($password)) {
         $response = ["success" => false, "message" => "Please fill in all required fields."];
         echo json_encode($response);
         exit;
@@ -80,8 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $userid = $conn->insert_id;
 
         // Insert into the customers table
-        $stmt = $conn->prepare("INSERT INTO customers (first_name, middle_name, last_name, suffix, email, phone) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $first_name, $middle_name, $last_name, $suffix, $email, $phone);
+        $stmt = $conn->prepare("INSERT INTO customers (customer_no, first_name, middle_name, last_name, suffix, email, phone) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssss", $customer_no, $first_name, $middle_name, $last_name, $suffix, $email, $phone);
         $stmt->execute();
 
         // Commit the transaction

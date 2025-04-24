@@ -1,4 +1,20 @@
-<?php include("header.php"); ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
+    header("Location: loginuser.php");
+    exit();
+}
+
+// Check if user has appropriate role
+if ($_SESSION['role'] != 'admin' && $_SESSION['role'] != 'employee') {
+    header("Location: /invent/user/index.php");
+    exit();
+}
+
+// If we get here, user is authenticated and authorized
+include("header.php");
+?>
 
 <body class="bg-gray-100">
 
