@@ -6,14 +6,11 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
     exit();
 }
 
-// Check the role and redirect accordingly
 if ($_SESSION['role'] == 'admin') {
-    // Admin stays on the page - no redirect
 } else if ($_SESSION['role'] == 'employee') {
     header("Location: /invent/admin/index.php");
     exit();
 } else {
-    // Any other role (like customer) gets redirected to user index
     header("Location: /invent/user/index.php");
     exit();
 }
