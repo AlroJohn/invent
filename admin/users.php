@@ -114,7 +114,7 @@ include("header.php");
                     <label for="role" class="block text-sm font-medium text-gray-600">Role</label>
                     <select id="role" name="role" class="w-full p-2 border border-gray-300 rounded-lg" required>
                         <option value="admin">Admin</option>
-                        <option value="user">User</option>
+                        <option value="employee">Employee</option>
                     </select>
                 </div>
                 <!-- Password Input -->
